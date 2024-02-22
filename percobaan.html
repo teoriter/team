@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .dropdown-container {
+            text-align: center;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin: 5px; /* Mengurangi margin menjadi 5px */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .dropdown:hover {
+            transform: translateY(-5px);
+        }
+
+        .dropdown:hover .dropdown-content {
+            animation: fadeIn 0.3s forwards;
+        }
+
+        .dropdown-content {
+            position: absolute;
+            background: linear-gradient(rgba(52, 152, 219, 0.7), rgba(52, 152, 219, 0.7)); /* Gradient transparan */
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 12px;
+            z-index: 1;
+            opacity: 0.8; /* Mengurangi opacity menjadi 0.8 */
+            display: none;
+            border: 1px solid #3498db; /* Garis pinggir berwarna biru */
+            border-radius: 4px;
+        }
+
+        .dropdown span {
+            display: block;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .dropdown:hover span {
+            background-color: #2980b9;
+        }
+
+        .dropdown-content img {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dropdown-container">
+    <div class="dropdown">
+        <span>Nama 1</span>
+        <div class="dropdown-content">
+            <img src="foto_nama1.jpg" alt="Foto Nama 1">
+            <p>Deskripsi untuk Nama 1.</p>
+        </div>
+    </div>
+
+    <div class="dropdown">
+        <span>Nama 2</span>
+        <div class="dropdown-content">
+            <img src="foto_nama2.jpg" alt="Foto Nama 2">
+            <p>Deskripsi untuk Nama 2.</p>
+        </div>
+    </div>
+
+    <!-- Tambahkan elemen-elemen dropdown lainnya sesuai kebutuhan -->
+    <!-- Contoh sampai Nama 13 -->
+</div>
+
+<script>
+    // JavaScript untuk menangani animasi dropdown
+    document.querySelectorAll('.dropdown').forEach(function(dropdown) {
+        dropdown.addEventListener('mouseover', function() {
+            this.querySelector('.dropdown-content').style.display = 'block';
+        });
+
+        dropdown.addEventListener('mouseout', function() {
+            this.querySelector('.dropdown-content').style.display = 'none';
+        });
+    });
+</script>
+
+</body>
+</html>

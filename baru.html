@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuis Pengetahuan Umum</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 50px;
+      background: linear-gradient(45deg, #3498db, #2ecc71);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h2 {
+      color: #ecf0f1;
+      font-size: 2em;
+      animation: fadeIn 1s ease-out;
+      margin-bottom: 10px;
+    }
+
+    .quiz-container {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-out;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .option {
+      margin: 8px;
+      padding: 12px;
+      width: 200px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .option:hover {
+      background-color: #2980b9;
+      transform: translateY(-3px);
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .score {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #2ecc71;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-out;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+      transform: scale(1.05);
+    }
+
+    .emoji {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+  <script>
+    var easyQuestions = [
+      {
+        question: "Apa ibukota Indonesia?",
+        options: ["Jakarta", "Bandung", "Surabaya", "Medan"],
+        correctAnswer: "Jakarta"
+      },
+      {
+        question: "Siapakah presiden pertama Indonesia?",
+        options: ["Soekarno", "Soeharto", "BJ. Habibie", "Gus Dur"],
+        correctAnswer: "Soekarno"
+      },
+      {
+        question: "Berapakah jumlah provinsi di Indonesia?",
+        options: ["30", "32", "34", "36"],
+        correctAnswer: "34"
+      }
+    ];
+
+    var mediumQuestions = [
+      {
+        question: "Siapa penemu lampu pijar?",
+        options: ["Thomas Edison", "Nikola Tesla", "Alexander Graham Bell", "Galileo Galilei"],
+        correctAnswer: "Thomas Edison"
+      },
+      {
+        question: "Berapa banyak planet yang ada di tata surya kita?",
+        options: ["7", "8", "9", "10"],
+        correctAnswer: "8"
+      },
+      {
+        question: "Apa singkatan dari laser?",
+        options: ["Light Amplification by Stimulated Emission of Radiation", "Light Absorption by Stimulated Emission of Reflection", "Luminous Amplification by Stimulated Energy of Radiation", "Laser is not an abbreviation"],
+        correctAnswer: "Light Amplification by Stimulated Emission of Radiation"
+      }
+    ];
+
+    var hardQuestions = [
+      {
+        question: "Siapa penulis drama terkenal 'Romeo dan Juliet'?",
+        options: ["Charles Dickens", "Jane Austen", "William Shakespeare", "Leo Tolstoy"],
+        correctAnswer: "William Shakespeare"
+      },
+      {
+        question: "Apa nama unsur kimia dengan simbol 'Au'?",
+        options: ["Arsenik", "Aluminium", "Emas", "Astatin"],
+        correctAnswer: "Emas"
+      },
+      {
+        question: "Apa nama ibukota Brasil?",
+        options: ["Rio de Janeiro", "Sao Paulo", "Brasilia", "Belo Horizonte"],
+        correctAnswer: "Brasilia"
+      }
+    ];
+
+    var currentQuestions = [];
+    var score = 0;
+
+    function startQuiz(mode) {
+      currentQuestions = (mode === "easy") ? [...easyQuestions] :
+                         (mode === "medium") ? [...mediumQuestions] :
+                         (mode === "hard") ? [...hardQuestions] : [];
+
+      if (currentQuestions.length === 0) {
+        alert("Mode tidak valid!");
+        return;
+      }
+
+      score = 0;
+      showNextQuestion();
+    }
+
+    function showNextQuestion() {
+      var quizContainer = document.getElementById("quiz-container");
+      quizContainer.innerHTML = "";
+
+      if (currentQuestions.length === 0) {
+        showResult();
+        return;
+      }
+
+      var question = currentQuestions.shift();
+      var questionElement = document.createElement("div");
+      questionElement.className = "question";
+      questionElement.textContent = question.question;
+      quizContainer.appendChild(questionElement);
+
+      var optionsElement = document.createElement("div");
+      optionsElement.className = "options";
+
+      question.options.forEach(function(option) {
+        var optionButton = document.createElement("button");
+        optionButton.className = "option";
+        optionButton.textContent = option;
+        optionButton.onclick = function() {
+          checkAnswer(option, question.correctAnswer);
+        };
+        optionsElement.appendChild(optionButton);
+      });
+
+      quizContainer.appendChild(optionsElement);
+    }
+
+    function checkAnswer(selectedOption, correctAnswer) {
+      var resultElement = document.createElement("div");
+      resultElement.className = "result";
+      if (selectedOption === correctAnswer) {
+        resultElement.textContent = "Jawaban benar! 😊";
+        score++;
+      } else {
+        resultElement.textContent = "Jawaban salah. 😞 Jawaban yang benar adalah: " + correctAnswer;
+      }
+
+      document.getElementById("quiz-container").appendChild(resultElement);
+
+      setTimeout(showNextQuestion, 2000);
+    }
+
+    function showResult() {
+      var quizContainer = document.getElementById("quiz-container");
+      quizContainer.innerHTML = "<p>Selamat, kuis selesai!</p>";
+
+      var scoreElement = document.createElement("div");
+      scoreElement.className = "score";
+      scoreElement.textContent = "Skor Anda: " + score + " dari " + (easyQuestions.length + mediumQuestions.length + hardQuestions.length);
+      quizContainer.appendChild(scoreElement);
+
+      var restartButton = document.createElement("button");
+      restartButton.textContent = "Mulai Lagi";
+      restartButton.onclick = function() {
+        startQuiz("easy"); // Gantilah mode sesuai keinginan
+      };
+      quizContainer.appendChild(restartButton);
+    }
+  </script>
+</head>
+<body>
+
+  <div class="emoji">😊</div>
+  <h2>Kuis Pengetahuan Umum</h2>
+  <p>Pilih mode kuis:</p>
+  <button onclick="startQuiz('easy')">Easy</button>
+  <button onclick="startQuiz('medium')">Medium</button>
+  <button onclick="startQuiz('hard')">Hard</button>
+
+  <div class="quiz-container" id="quiz-container"></div>
+
+</body>
+</html>

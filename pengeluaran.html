@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catatan Pengeluaran</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      text-align: center;
+      background-image: url('https://source.unsplash.com/1920x1080/?nature,landscape');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+        font-family: "Sofia", sans-serif;
+  font-size: 30px;
+  text-shadow: 3px 3px 3px #ababab;
+    }
+
+    #expenseForm, #expenseTable, #expenseHistory {
+      width: 300px;
+      margin: 20px auto;
+      text-align: left;
+      background-color: rgba(126, 125, 125, 0.8);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    label, input, button, select {
+      margin-bottom: 15px;
+      display: block;
+      width: calc(100% - 30px);
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, button:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+    }
+
+    #addExpenseBtn {
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #addExpenseBtn:hover {
+      background-color: #2980b9;
+    }
+
+    #expenseTable, #expenseHistory {
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: #fff;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 30px 0;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    /* MADE BY FADHIL PRATAMA
+FOLLOW INSTAGRAM SAYA @d4engmks
+FOLLOW JUGA TIKTOK SAYA @fdhilprtmaa
+KUNJUNGI WEBSITE SAYA UNTUK MENDAPATKAN SCRIPT CODE LAINNYA DI https://welkamcuy.paddddhil.repl.co 
+JANGAN LUPA BERIKAN SAYA DUKUNGAN MELALUI  https://saweria.co/teoriter
+JIKA ADA SARAN DAN MASUKAN SILAHKAN HUBUNGI SAYA MELALUI WHATSAPP 0815455804947
+DIMOHON AGAR TIDAK MEMPERJUALBELIKAN SCRIPT INI */
+
+    li {
+      background-color: rgba(52, 152, 219, 0.8);
+      color: #fff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background-color 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+
+    li:hover {
+      background-color: #2980b9;
+      transform: translateY(-5px);
+    }
+
+    .deleteBtn {
+      background-color: #e74c3c;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .deleteBtn:hover {
+      background-color: #c0392b;
+    }
+
+    #expenseCategory {
+      width: 100%;
+    }
+
+    .toggleBtn {
+      background-color: #3498db;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .toggleBtn:hover {
+      background-color: #2980b9;
+    }
+
+    .backBtn {
+      background-color: #e74c3c;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .backBtn:hover {
+      background-color: #c0392b;
+    }
+
+    p {
+        color: rgb(101, 155, 71);
+    }
+
+    @media (max-width: 500px) {
+      #expenseForm, #expenseTable, #expenseHistory, ul {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <h1>Catatan Pengeluaran</h1>
+
+  <div id="expenseForm">
+    <label for="expenseName">Nama Pengeluaran:</label>
+    <input type="text" id="expenseName" placeholder="Contoh: Makan Siang">
+    <label for="expenseAmount">Jumlah Pengeluaran:</label>
+    <input type="number" id="expenseAmount" placeholder="Contoh: 50000">
+    <label for="expenseCategory">Kategori Pengeluaran:</label>
+    <select id="expenseCategory">
+      <option value="makanan">Makanan</option>
+      <option value="transportasi">Transportasi</option>
+      <option value="hiburan">Hiburan</option>
+      <!-- Tambahkan kategori lain sesuai kebutuhan -->
+    </select>
+    <button id="addExpenseBtn" onclick="tambahPengeluaran()">Tambah Pengeluaran</button>
+    <button class="toggleBtn" onclick="toggleTable()">Lihat Tabel</button>
+  </div>
+
+  <div id="expenseTable">
+    <h2>Catatan Pengeluaran</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nama Pengeluaran</th>
+          <th>Jumlah</th>
+          <th>Kategori</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <button class="toggleBtn" onclick="toggleTable()">Sembunyikan Tabel</button>
+    <button class="backBtn" onclick="toggleHistory()">Lihat Riwayat</button>
+  </div>
+
+  <div id="expenseHistory">
+    <h2>Riwayat Pengeluaran</h2>
+    <ul id="expenseList"></ul>
+    <button class="backBtn" onclick="toggleHistory()">Kembali</button>
+  </div>
+
+  <p><mark>Pengeluaran: Rp <span id="totalExpense">0</span></mark></p>
+
+  <!-- MADE BY FADHIL PRATAMA
+FOLLOW INSTAGRAM SAYA @d4engmks
+FOLLOW JUGA TIKTOK SAYA @fdhilprtmaa
+KUNJUNGI WEBSITE SAYA UNTUK MENDAPATKAN SCRIPT CODE LAINNYA DI https://welkamcuy.paddddhil.repl.co 
+JANGAN LUPA BERIKAN SAYA DUKUNGAN MELALUI  https://saweria.co/teoriter
+JIKA ADA SARAN DAN MASUKAN SILAHKAN HUBUNGI SAYA MELALUI WHATSAPP 0815455804947
+DIMOHON AGAR TIDAK MEMPERJUALBELIKAN SCRIPT INI-->
+
+  <script>
+    const savedExpenses = JSON.parse(localStorage.getItem('expenses')) || [];
+    const expenseList = document.getElementById('expenseList');
+    const tableBody = document.getElementById('tableBody');
+    const totalExpense = document.getElementById('totalExpense');
+    const expenseForm = document.getElementById('expenseForm');
+    const expenseTable = document.getElementById('expenseTable');
+    const expenseHistory = document.getElementById('expenseHistory');
+
+    savedExpenses.forEach(savedExpense => {
+      tambahPengeluaranDOM(savedExpense);
+    });
+
+    function tambahPengeluaran() {
+      const expenseName = document.getElementById('expenseName').value;
+      const expenseAmount = document.getElementById('expenseAmount').value;
+      const expenseCategory = document.getElementById('expenseCategory').value;
+
+      if (expenseName.trim() !== '' && expenseAmount.trim() !== '' && !isNaN(expenseAmount)) {
+        const newExpense = `${expenseName}: Rp ${expenseAmount} (${expenseCategory})`;
+        tambahPengeluaranDOM(newExpense);
+        savedExpenses.push(newExpense);
+        simpanKeLocalStorage();
+        resetForm();
+        hitungTotalPengeluaran();
+      } else {
+        alert('Harap isi nama dan jumlah pengeluaran dengan benar.');
+      }
+    }
+
+    function tambahPengeluaranDOM(expense) {
+      const newExpenseElement = document.createElement('li');
+      newExpenseElement.textContent = expense;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'deleteBtn';
+      deleteBtn.textContent = 'Hapus';
+      deleteBtn.onclick = function() {
+        newExpenseElement.remove();
+        savedExpenses.splice(savedExpenses.indexOf(expense), 1);
+        simpanKeLocalStorage();
+        hitungTotalPengeluaran();
+      };
+
+      newExpenseElement.appendChild(deleteBtn);
+      expenseList.appendChild(newExpenseElement);
+
+      // Tambahkan juga ke tabel
+      const expenseData = expense.split(':');
+      const newRow = tableBody.insertRow();
+      const cell1 = newRow.insertCell(0);
+      const cell2 = newRow.insertCell(1);
+      const cell3 = newRow.insertCell(2);
+      cell1.textContent = expenseData[0];
+      cell2.textContent = expenseData[1];
+      cell3.textContent = expenseData[2];
+    }
+
+    function simpanKeLocalStorage() {
+      localStorage.setItem('expenses', JSON.stringify(savedExpenses));
+    }
+
+//     MADE BY FADHIL PRATAMA
+// FOLLOW INSTAGRAM SAYA @d4engmks
+// FOLLOW JUGA TIKTOK SAYA @fdhilprtmaa
+// KUNJUNGI WEBSITE SAYA UNTUK MENDAPATKAN SCRIPT CODE LAINNYA DI https://welkamcuy.paddddhil.repl.co 
+// JANGAN LUPA BERIKAN SAYA DUKUNGAN MELALUI  https://saweria.co/teoriter
+// JIKA ADA SARAN DAN MASUKAN SILAHKAN HUBUNGI SAYA MELALUI WHATSAPP 0815455804947
+// DIMOHON AGAR TIDAK MEMPERJUALBELIKAN SCRIPT INI
+
+    function resetForm() {
+      document.getElementById('expenseName').value = '';
+      document.getElementById('expenseAmount').value = '';
+      document.getElementById('expenseCategory').value = 'food';
+    }
+
+    function hitungTotalPengeluaran() {
+      const total = savedExpenses.reduce((acc, expense) => {
+        const amount = parseFloat(expense.split(':')[1].replace('Rp', '').replace(',', '').trim());
+        return acc + amount;
+      }, 0);
+
+      totalExpense.textContent = total.toLocaleString('id-ID');
+    }
+
+    function toggleTable() {
+      if (expenseTable.style.display === 'none') {
+        expenseTable.style.display = 'block';
+        expenseHistory.style.display = 'none';
+        expenseForm.style.display = 'none';
+      } else {
+        expenseTable.style.display = 'none';
+        expenseHistory.style.display = 'none';
+        expenseForm.style.display = 'block';
+      }
+    }
+
+    function toggleHistory() {
+      if (expenseHistory.style.display === 'none') {
+        expenseHistory.style.display = 'block';
+        expenseTable.style.display = 'none';
+        expenseForm.style.display = 'none';
+      } else {
+        expenseHistory.style.display = 'none';
+        expenseTable.style.display = 'block';
+        expenseForm.style.display = 'none';
+      }
+    }
+
+    hitungTotalPengeluaran(); // Hitung total pengeluaran saat pertama kali load
+  </script>
+
+</body>
+</html>

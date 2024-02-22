@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator BMI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('https://source.unsplash.com/1920x1080/?health');
+            background-size: cover;
+            margin: 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #009688;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            transition: background 0.3s ease;
+        }
+
+        th:hover, td:hover {
+            background: #f0f0f0;
+        }
+
+        th {
+            background: #009688;
+            color: #fff;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+            color: #555;
+        }
+
+        input {
+            width: calc(100% - 22px);
+            padding: 12px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #009688;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #00796b;
+        }
+
+        #hasilBMI {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kalkulator BMI</h1>
+    <p>by paddd</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Berat (kg)</th>
+                <th>Tinggi (cm)</th>
+                <th>BMI</th>
+                <th>Kategori</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Data tabel akan ditampilkan di sini -->
+        </tbody>
+    </table>
+    <label for="berat">Berat (kg): </label>
+    <input type="number" id="berat" placeholder="Masukkan berat...">
+    <label for="tinggi">Tinggi (cm): </label>
+    <input type="number" id="tinggi" placeholder="Masukkan tinggi...">
+    <button onclick="hitungBMI()">Hitung BMI</button>
+    <div id="hasilBMI"></div>
+</div>
+<!-- MADE BY FADHIL PRATAMA
+FOLLOW INSTAGRAM SAYA @d4engmks
+FOLLOW JUGA TIKTOK SAYA @fdhilprtmaa
+KUNJUNGI WEBSITE SAYA UNTUK MENDAPATKAN SCRIPT CODE LAINNYA DI https://welkamcuy.paddddhil.repl.co 
+JANGAN LUPA BERIKAN SAYA DUKUNGAN MELALUI  https://saweria.co/teoriter
+JIKA ADA SARAN DAN MASUKAN SILAHKAN HUBUNGI SAYA MELALUI WHATSAPP 0815455804947
+DIMOHON AGAR TIDAK MEMPERJUALBELIKAN SCRIPT INI-->
+<script>
+    function hitungBMI() {
+        var berat = document.getElementById('berat').value;
+        var tinggi = document.getElementById('tinggi').value;
+        var hasilBMIElement = document.getElementById('hasilBMI');
+        var tableBody = document.getElementById('tableBody');
+
+        if (berat > 0 && tinggi > 0) {
+            // Hitung BMI
+            var tinggiMeter = tinggi / 100;
+            var bmi = berat / (tinggiMeter * tinggiMeter);
+
+            // Tampilkan hasil BMI dan kategori
+            var hasilBMI = 'BMI: ' + bmi.toFixed(2) + '<br>';
+            var kategori = '';
+            if (bmi < 18.5) {
+                kategori = 'Kurus';
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                kategori = 'Normal';
+            } else if (bmi >= 25 && bmi < 29.9) {
+                kategori = 'Overweight';
+            } else {
+                kategori = 'Obesitas';
+            }
+
+            hasilBMIElement.innerHTML = hasilBMI + 'Kategori: ' + kategori;
+
+            // Tambahkan data ke tabel
+            var newRow = tableBody.insertRow(0);
+            var cellBerat = newRow.insertCell(0);
+            var cellTinggi = newRow.insertCell(1);
+            var cellBMI = newRow.insertCell(2);
+            var cellKategori = newRow.insertCell(3);
+
+            cellBerat.innerHTML = berat;
+            cellTinggi.innerHTML = tinggi;
+            cellBMI.innerHTML = bmi.toFixed(2);
+            cellKategori.innerHTML = kategori;
+
+            // Reset input
+            document.getElementById('berat').value = '';
+            document.getElementById('tinggi').value = '';
+        } else {
+            hasilBMIElement.innerHTML = 'Masukkan berat dan tinggi yang valid.';
+        }
+    }
+//     MADE BY FADHIL PRATAMA
+// FOLLOW INSTAGRAM SAYA @d4engmks
+// FOLLOW JUGA TIKTOK SAYA @fdhilprtmaa
+// KUNJUNGI WEBSITE SAYA UNTUK MENDAPATKAN SCRIPT CODE LAINNYA DI https://welkamcuy.paddddhil.repl.co 
+// JANGAN LUPA BERIKAN SAYA DUKUNGAN MELALUI  https://saweria.co/teoriter
+// JIKA ADA SARAN DAN MASUKAN SILAHKAN HUBUNGI SAYA MELALUI WHATSAPP 0815455804947
+// DIMOHON AGAR TIDAK MEMPERJUALBELIKAN SCRIPT INI
+</script>
+
+</body>
+</html>
